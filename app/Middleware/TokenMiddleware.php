@@ -16,9 +16,10 @@ class TokenMiddleware{
 
             if (!$token) {
                 ErrorLog::errorsLog("Empty token received");
-                Flight::jsonHalt([
+                Flight::redirect('/login');
+                /* Flight::jsonHalt([
                     "error" => "Empty token"
-                ], 401);
+                ], 401); */
             }
             //$token = trim(str_replace('Bearer',"",$auth));
             $user = validatedToken($token, $_ENV['TOKEN']);
