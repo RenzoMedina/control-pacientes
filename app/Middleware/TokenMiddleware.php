@@ -1,6 +1,6 @@
 <?php 
 
-namespace AppMiddleware;
+namespace App\Middleware;
 
 use Flight;
 use App\Core\ErrorLog;

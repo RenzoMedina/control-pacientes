@@ -27,9 +27,9 @@ COPY supervisord.conf /etc/supervisord.conf
 
 WORKDIR /var/www/backend-frontend
 
-RUN mkdir -p app/Core/logs && \
-    chown -R www-data:www-data app/Core/logs && \
-    chmod -R 777 app/Core/logs 
+RUN mkdir -p /var/www/backend-frontend/app/Core/logs && \
+    chown -R www-data:www-data /var/www/backend-frontend/app/Core/logs && \
+    chmod -R 775 /var/www/backend-frontend/app/Core/logs
 
 RUN composer install --no-dev --optimize-autoloader && npm install 
 

@@ -8,8 +8,12 @@ class ErrorLog{
         if (!is_dir(self::$path)) {
             mkdir(self::$path, 0777, true);
         }
-        $filePaht = self::$path . 'errors.log';
-        $file = fopen($filePaht, "a");
+        $filePath = self::$path . 'errors.log';
+        $file = fopen($filePath, "a");
+        if (!$file) {
+            error_log("No se pudo abrir el archivo de log: $filePath");
+    }
+
         if($file){
             $time = date("Y-m-d H:i:s");
             fwrite($file, "[$time] $log\n");

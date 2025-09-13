@@ -1,6 +1,7 @@
 <?php 
 
 use App\Controllers\UserController;
+use App\Middleware\TokenMiddleware;
 
 Flight::set('flight.views.path', './app/Views');
 
@@ -22,4 +23,14 @@ Flight::route('POST /login-process', [UserController::class, 'login']);
 Flight::map('notFound', function(){
     Flight::render('404');
 });
+
+/**
+ * ? start the framework
+ */
+Flight::group("/home", function(){
+    Flight::route(" GET /", function(){
+        Flight::render('dashboard/home');
+    });
+}, [new TokenMiddleware()]);
+
 Flight::start();
