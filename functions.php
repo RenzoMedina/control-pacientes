@@ -11,13 +11,14 @@ use Firebase\JWT\ExpiredException;
  * @param mixed $admin
  * @return string
  */
-function getToken($data,$admin){
+function getToken($admin, $name, $email){
     $now = strtotime("now");
-    $key = $_ENV['TOKEN'];
+    $key = trim($_ENV['TOKEN']);
     $payload = [
         'exp'=>$now + 3600,
         'rol'=>$admin,
-        'data'=> $data
+        'name'=> $name,
+        'email'=> $email
     ];
     $jwt = JWT::encode($payload, $key, 'HS256');
     return $jwt;

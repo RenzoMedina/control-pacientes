@@ -16,6 +16,10 @@ Flight::route('/login', function(){
  * ? login process
  */
 Flight::route('POST /login-process', [UserController::class, 'login']);
+Flight::route('GET /logout', function() {
+    setcookie('token', '', time() - 3600, '/');
+    Flight::redirect('/login');
+});
 
 /**
  * ? route not found or 404
@@ -29,7 +33,8 @@ Flight::map('notFound', function(){
  */
 Flight::group("/home", function(){
     Flight::route(" GET /", function(){
-        Flight::render('dashboard/home');
+         $user = Flight::get('user');
+        Flight::render('dashboard/home', ['user' => $user]);
     });
 }, [new TokenMiddleware()]);
 

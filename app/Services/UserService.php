@@ -17,6 +17,7 @@ class UserService extends ServiceProvider{
             ],
             [
                 'table_users.id',
+                'table_users.name',
                 'table_users.email',
                 'table_users.password',
                 'table_roles.type'
@@ -27,27 +28,31 @@ class UserService extends ServiceProvider{
 
             );
             
-            $id = $data['id'];
             $id_rol = $data['type'];
             $user = $data['email'];
             $password = $data['password']; 
+            $userName= $data['name'];
             
             if (password_verify($field['password'],$password) && $user == $field['email']){
                 AppLog::appLog("User {$email} logged in successfully.");
-                return getToken( $id,$id_rol);
+                return getToken( $id_rol, $userName, $user);
             }
             else{
                 ErrorLog::errorsLog("401 -> Invalid login attempt for user: {$email}");
+                Flight::redirect('/login');
+                /* return null;
                 Flight::jsonHalt([
                     "error"=>"Invalid username or password"
-                ],401);
+                ],401);  */
             }
-        } catch (Exception $e) {
+            } catch (Exception $e) {
             ErrorLog::errorsLog("401 -> Invalid login attempt for user: {$email} - " . $e->getMessage());
-            Flight::jsonHalt([
+             Flight::redirect('/login');
+/*                 return null;
+             Flight::jsonHalt([
                     "error"=>"Invalid login",
                     "details"=>$e->getMessage()
-                ],401);
+                ],401);  */
             }
     }
 }
