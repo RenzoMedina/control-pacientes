@@ -14,6 +14,7 @@ ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/relea
 RUN install-php-extensions \
     pdo \
     pdo_mysql \
+    pdo_pgsql \
     curl \
     mbstring \
     zip \
