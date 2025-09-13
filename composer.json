@@ -1,0 +1,24 @@
+{
+    "name": "renzomedina/backend",
+    "description": "This project to control of patient",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Routes\\": "routes/"
+        }, "files": ["functions.php"]
+    },
+    "authors": [
+        {
+            "name": "RenzoMedina",
+            "email": "medinast30@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "flightphp/core": "dev-master",
+        "vlucas/phpdotenv": "^5.6@dev",
+        "firebase/php-jwt": "dev-main",
+        "catfan/medoo": "dev-master"
+    }
+}
