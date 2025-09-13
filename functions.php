@@ -1,9 +1,9 @@
 <?php 
 
-use Core\ErrorLog;
-use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use App\Core\ErrorLog;
+use Firebase\JWT\ExpiredException;
 
 /**
  * Summary of getToken with JWT
