@@ -5,25 +5,31 @@ namespace App\Controllers;
 use Flight;
 use Exception;
 use App\Core\AppLog;
+use App\Models\User;
 use App\Core\ErrorLog;
 use App\Services\UserService;
 
 class UserController{
 
+    public function index(){
+        $user = Flight::get('user');
+        $users = (new User())->getAll();
+        Flight::render('dashboard/user', ['user' => $user, 'users'=>$users]);
+    }
     public function login(){
         $user = Flight::request()->data['email'];
         $field = Flight::request()->data;
         $token = (new UserService())->loginUser($user,$field);
-        Flight::json([
+/*         Flight::json([
             "token"=>$token
-        ]);
+        ]); */
         AppLog::appLog("User logged in with name: {$user}"); 
         if(!$token){
             Flight::redirect(  '/login');
             return;
         }
         setcookie('token', $token, time() + 3600, '/');
-        Flight::redirect('/home');
+        Flight::redirect(  '/home');
     }
     public function validateProfile(){
         $heades = getallheaders();

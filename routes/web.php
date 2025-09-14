@@ -33,14 +33,16 @@ Flight::map('notFound', function(){
  * ? start the framework
  */
 Flight::group("/home", function(){
+
     Flight::route(" GET /", function(){
         $user = Flight::get('user');
         Flight::render('dashboard/home', ['user' => $user]);
     });
-    Flight::route(" GET /users", function(){
-        $user = Flight::get('user');
-        Flight::render('dashboard/user', ['user' => $user]);
-    });
+
+    Flight::group("/users", function(){
+        Flight::route(" GET /", [UserController::class, 'index']);
+    },[new AuthMiddleware(), new TokenMiddleware()]);
+
     Flight::route(" GET /clients", function(){
         $user = Flight::get('user');
         Flight::render('dashboard/clients', ['user' => $user]);
