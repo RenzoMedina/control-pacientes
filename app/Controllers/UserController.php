@@ -56,4 +56,11 @@ class UserController{
         }
     }
 
+    public function createUser(){
+        $data = Flight::request()->data;
+        Flight::json([
+            "data"=>$data
+        ]);
+    }
+
 }

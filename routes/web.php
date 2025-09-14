@@ -1,6 +1,7 @@
 <?php 
 
 use App\Controllers\UserController;
+use App\Middleware\AuthMiddleware;
 use App\Middleware\TokenMiddleware;
 
 Flight::set('flight.views.path', './app/Views');
@@ -33,8 +34,29 @@ Flight::map('notFound', function(){
  */
 Flight::group("/home", function(){
     Flight::route(" GET /", function(){
-         $user = Flight::get('user');
+        $user = Flight::get('user');
         Flight::render('dashboard/home', ['user' => $user]);
+    });
+    Flight::route(" GET /users", function(){
+        $user = Flight::get('user');
+        Flight::render('dashboard/user', ['user' => $user]);
+    });
+    Flight::route(" GET /clients", function(){
+        $user = Flight::get('user');
+        Flight::render('dashboard/clients', ['user' => $user]);
+    });
+    Flight::route("POST /users", [UserController::class, 'createUser'])->addMiddleware([new AuthMiddleware()]);
+    Flight::route(" GET /products", function(){
+        $user = Flight::get('user');
+        Flight::render('dashboard/products', ['user' => $user]);
+    });
+    Flight::route(" GET /reports", function(){
+        $user = Flight::get('user');
+        Flight::render('dashboard/reports', ['user' => $user]);
+    });
+    Flight::route(" GET /settings", function(){
+        $user = Flight::get('user');
+        Flight::render('dashboard/settings', ['user' => $user]);
     });
 }, [new TokenMiddleware()]);
 
