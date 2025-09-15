@@ -1,5 +1,6 @@
 <?php 
 
+use App\Controllers\RoleController;
 use App\Controllers\UserController;
 use App\Middleware\AuthMiddleware;
 use App\Middleware\TokenMiddleware;
@@ -56,10 +57,12 @@ Flight::group("/home", function(){
         $user = Flight::get('user');
         Flight::render('dashboard/reports', ['user' => $user]);
     });
-    Flight::route(" GET /settings", function(){
-        $user = Flight::get('user');
-        Flight::render('dashboard/settings', ['user' => $user]);
+
+    Flight::group("/settings", function(){
+            flight::route("POST /role", [RoleController::class, 'store']);
+            Flight::route(" GET /", [RoleController::class, 'index']);
     });
+    
 }, [new TokenMiddleware()]);
 
 Flight::start();

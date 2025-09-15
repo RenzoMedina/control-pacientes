@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Flight;
 use Exception;
 use App\Core\AppLog;
+use App\Models\Role;
 use App\Models\User;
 use App\Core\ErrorLog;
 use App\Services\UserService;
@@ -13,8 +14,9 @@ class UserController{
 
     public function index(){
         $user = Flight::get('user');
+        $role = (new Role())->getAllRoles();
         $users = (new User())->getAll();
-        Flight::render('dashboard/user', ['user' => $user, 'users'=>$users]);
+        Flight::render('dashboard/user', ['user' => $user, 'users'=>$users,'role'=>$role]);
     }
     public function login(){
         $user = Flight::request()->data['email'];

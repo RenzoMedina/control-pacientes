@@ -191,11 +191,9 @@
                         <label for="category" class="block mb-2 text-sm font-medium text-white">Cargo</label>
                         <select id="category" name="role"
                             class="block p-2.5 w-full text-sm  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 bg-gray-600 dark:border-gray-500 placeholder-gray-400 text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="1">Administrador</option>
-                            <option value="2">Supervisor</option>
-                            <option value="3">Cuidador</option>
-                            <option value="4">Asistente</option>
-                            <option value="5">Gerencia</option>
+                            <?php foreach($role as $roles): ?>
+                            <option value="<?php echo $roles['type']; ?>"><?php echo $roles['type']; ?></option>
+                             <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="w-full">

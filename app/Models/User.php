@@ -24,8 +24,9 @@ class User extends Model{
         }catch(\Exception $e){
             throw $e;
         }
-        /* return $this->db->select('table_users',[
-            'rut','name','last_name','email','role'
-        ]); */
+    }
+
+    public function createUser($data){
+        
     }
 }
