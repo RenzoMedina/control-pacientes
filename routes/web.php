@@ -39,10 +39,13 @@ Flight::group("/home", function(){
         $user = Flight::get('user');
         Flight::render('dashboard/home', ['user' => $user]);
     });
-
+    /**
+     * ? group routes of users
+     */
     Flight::group("/users", function(){
         Flight::route(" GET /", [UserController::class, 'index']);
-    },[new AuthMiddleware(), new TokenMiddleware()]);
+        Flight::route(" POST /", [UserController::class, 'store']);
+    },[new AuthMiddleware()]);
 
     Flight::route(" GET /clients", function(){
         $user = Flight::get('user');
@@ -57,12 +60,18 @@ Flight::group("/home", function(){
         $user = Flight::get('user');
         Flight::render('dashboard/reports', ['user' => $user]);
     });
-
+     /**
+     * ? group routes of settings with role and preferences
+     */
     Flight::group("/settings", function(){
             flight::route("POST /role", [RoleController::class, 'store']);
             Flight::route(" GET /", [RoleController::class, 'index']);
-    });
+    },[new AuthMiddleware()]);
     
+    Flight::route(" GET /reportsclinical", function(){
+        $user = Flight::get('user');
+        Flight::render('dashboard/reportsclinical', ['user' => $user]);
+    });
 }, [new TokenMiddleware()]);
 
 Flight::start();

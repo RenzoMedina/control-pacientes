@@ -27,21 +27,27 @@
                                 <th scope="col" class="px-4 py-3">Apellido</th>
                                 <th scope="col" class="px-4 py-3">Correo</th>
                                 <th scope="col" class="px-4 py-3">Cargo</th>
+                                <th scope="col" class="px-4 py-3">Estado</th>
                                 <th scope="col" class="px-4 py-3">
                                     <span class="sr-only">Actions</span>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-
                         <?php foreach($users as $usuario): ?>
-
                             <tr class="border-b border-gray-700">
                                 <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap "><?php echo $usuario['rut']?></th>
                                 <td class="px-4 py-3"><?php echo $usuario['name']?></td>
                                 <td class="px-4 py-3"><?php echo $usuario['last_name']?></td>
                                 <td class="px-4 py-3"><?php echo $usuario['email']?></td>
                                 <td class="px-4 py-3"><?php echo $usuario['role']['type']?></td>
+                                <td class="px-4 py-3"><?php 
+                                    if ($usuario['status']=="active"){
+                                        echo "Activo";
+                                    }else{
+                                        echo "Inactivo";
+                                    }
+                                ?></td>
                                 <td class="px-4 py-3 flex items-center justify-end">
                                     <button id="apple-imac-27-dropdown-button"
                                         data-dropdown-toggle="apple-imac-27-dropdown"
@@ -192,7 +198,7 @@
                         <select id="category" name="role"
                             class="block p-2.5 w-full text-sm  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 bg-gray-600 dark:border-gray-500 placeholder-gray-400 text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <?php foreach($role as $roles): ?>
-                            <option value="<?php echo $roles['type']; ?>"><?php echo $roles['type']; ?></option>
+                            <option value="<?php echo $roles['id']; ?>"><?php echo $roles['type']; ?></option>
                              <?php endforeach; ?>
                         </select>
                     </div>

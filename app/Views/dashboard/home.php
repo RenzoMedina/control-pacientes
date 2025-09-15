@@ -25,7 +25,7 @@
             <div class="z-50 hidden my-4 text-base list-none rounded-sm shadow-sm bg-gray-700 divide-gray-600" id="dropdown-user">
               <div class="px-4 py-3" role="none">
                 <p class="text-sm text-white " role="none">
-                  <?php echo $user->name; ?>
+                  <?php echo $user->name ?>
                 </p>
                 <p class="text-sm font-medium truncate text-gray-300" role="none">
                    <?php echo $user->email; ?>
@@ -61,6 +61,8 @@
                <span class="ms-3">Dashboard</span>
             </a>
          </li>
+
+         <?php if ($user->rol === 'Administrador'): ?>
          <li>
             <a href="/home/users" class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                <svg class="shrink-0 w-5 h-5 text-white group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
@@ -69,7 +71,6 @@
                <span class="flex-1 ms-3 whitespace-nowrap">Usuarios</span>
             </a>
          </li>
-         <?php if ($user->rol === 'Administrador'): ?>
          <li>
             <a href="/home/clients" class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
               <svg class="shrink-0 w-5 h-5 text-white group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
@@ -106,6 +107,16 @@
             </a>
          </li>
          <?php endif; ?>
+                  <li>
+            <a href="/home/reportsclinical" class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+               <svg class="shrink-0 w-5 h-5 text-white group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+            <path fill-rule="evenodd" d="M5.024 3.783A1 1 0 0 1 6 3h12a1 1 0 0 1 .976.783L20.802 12h-4.244a1.99 1.99 0 0 0-1.824 1.205 2.978 2.978 0 0 1-5.468 0A1.991 1.991 0 0 0 7.442 12H3.198l1.826-8.217ZM3 14v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5h-4.43a4.978 4.978 0 0 1-9.14 0H3Zm5-7a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Zm0 2a1 1 0 0 0 0 2h8a1 1 0 1 0 0-2H8Z" clip-rule="evenodd"/>
+            </svg>
+                        
+               <span class="flex-1 ms-3 whitespace-nowrap">Reportes Clínicos</span>
+            
+            </a>
+         </li>
       </ul>
    </div>
 </aside>

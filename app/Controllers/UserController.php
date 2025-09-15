@@ -64,11 +64,15 @@ class UserController{
         }
     }
 
-    public function createUser(){
-        $data = Flight::request()->data;
-        Flight::json([
-            "data"=>$data
-        ]);
+    public function store(){
+       $data = Flight::request()->data;
+        if(empty($data)){
+            ErrorLog::errorsLog("400 -> No data provided for user creation");
+            Flight::redirect('/home/users');
+        }
+        (new User())->createUser($data);
+        Flight::redirect('/home/users');
+ 
     }
 
 }
