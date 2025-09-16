@@ -10,6 +10,15 @@ Flight::set('flight.views.path', './app/Views');
 Flight::route('/', function(){
     Flight::render('home');
 });
+Flight::route("/about", function(){
+    Flight::render("about");
+});
+Flight::route("/services", function(){
+    Flight::render("services");
+});
+Flight::route("/contact", function(){
+    Flight::render("contact");
+});
 Flight::route('/login', function(){
     Flight::render('login');
 });

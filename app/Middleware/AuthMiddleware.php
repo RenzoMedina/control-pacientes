@@ -19,6 +19,7 @@ class AuthMiddleware{
             if (!$token) {
                 ErrorLog::errorsLog("Empty token received");
                 Flight::redirect('/login');
+                die;
                 /* Flight::jsonHalt([
                     "error" => "Empty token"
                 ], 401); */

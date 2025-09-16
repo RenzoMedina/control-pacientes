@@ -22,6 +22,7 @@ class User extends Model{
                     'role'=>$roles[0]
                 ];
             }
+            AppLog::appLog("Fetching all users from database");
             return $results;
 
         }catch(\Exception $e){
