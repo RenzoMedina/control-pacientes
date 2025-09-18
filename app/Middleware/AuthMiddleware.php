@@ -9,7 +9,7 @@ use App\Core\ErrorLog;
 class AuthMiddleware{
      public function before($params){
             $auth = Flight::request()->header('Authorization');
-            AppLog::appLog("Authorization header received: " . $auth);
+            //AppLog::appLog("Authorization header received: " . $auth);
             if ($auth && str_starts_with($auth, 'Bearer ')) {
                 $token = trim(substr($auth, 7));
             } else {

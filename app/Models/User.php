@@ -9,11 +9,12 @@ use App\Core\ErrorLog;
 class User extends Model{
     public function getAll(){
         try{
-            $users= $this->db->select('table_users',['rut','name','last_name','email','role','status']);
+            $users= $this->db->select('table_users',['id','rut','name','last_name','email','role','status']);
             $results =[];
             foreach($users as $user){
                 $roles = $this->db->select('table_roles',['type'],['id'=>$user['role']]);
                 $results[]=[
+                    'id'=>$user['id'],
                     'rut'=>$user['rut'],
                     'name'=>$user['name'],
                     'last_name'=>$user['last_name'],
@@ -26,7 +27,7 @@ class User extends Model{
             return $results;
 
         }catch(\Exception $e){
-            throw $e;
+            ErrorLog::errorsLog("Error getAll user: " . $e->getMessage());
         }
     }
 
@@ -55,4 +56,28 @@ class User extends Model{
             ErrorLog::errorsLog("Error creating user: " . $e->getMessage());
         }
     }
+
+    public function getById($id){
+        try{
+            $user= $this->db->get('table_users',['id','rut','name','last_name','email','role','status'],['id'=>$id]);
+            if($user){
+                $roles = $this->db->select('table_roles',['type'],['id'=>$user['role']]);
+                $results=[
+                    'id'=>$user['id'],
+                    'rut'=>$user['rut'],
+                    'name'=>$user['name'],
+                    'last_name'=>$user['last_name'],
+                    'email'=>$user['email'],
+                    'status'=>$user['status'],
+                    'role'=>$roles[0]
+                ];
+            }
+            AppLog::appLog("Fetching all users by id from database");
+            return $results;
+
+        }catch(\Exception $e){
+            ErrorLog::errorsLog("Error getById user: " . $e->getMessage());
+        }
+    }
+
 }

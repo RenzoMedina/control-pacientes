@@ -15,7 +15,7 @@ function getToken($admin, $name, $email){
     $now = strtotime("now");
     $key = trim($_ENV['TOKEN']);
     $payload = [
-        'exp'=>$now + 300,
+        'exp'=>$now + 3600,
         'rol'=>$admin,
         'name'=> $name,
         'email'=> $email

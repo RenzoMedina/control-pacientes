@@ -54,13 +54,13 @@ Flight::group("/home", function(){
     Flight::group("/users", function(){
         Flight::route(" GET /", [UserController::class, 'index']);
         Flight::route(" POST /", [UserController::class, 'store']);
+        Flight::route("GET /@id", [UserController::class,'show']);
     },[new AuthMiddleware()]);
 
     Flight::route(" GET /clients", function(){
         $user = Flight::get('user');
         Flight::render('dashboard/clients', ['user' => $user]);
     });
-    Flight::route("POST /users", [UserController::class, 'createUser'])->addMiddleware([new AuthMiddleware()]);
     Flight::route(" GET /products", function(){
         $user = Flight::get('user');
         Flight::render('dashboard/products', ['user' => $user]);

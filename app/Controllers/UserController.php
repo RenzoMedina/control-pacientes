@@ -75,4 +75,10 @@ class UserController{
  
     }
 
+    public function show($id){
+        $user = Flight::get('user');
+        $userId = (new User())->getById($id);
+        Flight::render('dashboard/userShow', ['user' => $user, 'userId'=>$userId]);
+    }
+
 }
