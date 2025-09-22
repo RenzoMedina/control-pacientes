@@ -37,7 +37,7 @@ jobs:
         if: env.WORK_ITEM_ID != ''
         env:
           AZDO_ORG: CodeRenzo
-          AZDO_PROJECT: SistemaAdministrable
+          AZDO_PROJECT: ControldePacientes
           AZDO_PAT: ${{ secrets.AZDO_PAT }}
         run: |
           curl --request PATCH \
