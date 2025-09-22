@@ -16,6 +16,7 @@ jobs:
 
   azure-borad:
     name: Azure borad
+    needs: build
     runs-on: ubuntu-latest
     steps:
     #obteniendo el commit
@@ -45,4 +46,4 @@ jobs:
             --user :$AZDO_PAT \
             --data '[{ "op": "add", "path": "/fields/System.State", "value": "Done" }]'
 
-            
+
