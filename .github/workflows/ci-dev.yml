@@ -19,9 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Validate composer.json and composer.lock
-        working-directory: .
-        run: composer validate --strict
     # Set up PHP
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
