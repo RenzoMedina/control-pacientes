@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - uses: actions/checkout@v4
     # Set up PHP
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
