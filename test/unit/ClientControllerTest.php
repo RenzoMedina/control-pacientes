@@ -35,4 +35,29 @@ class ClientControllerTest extends TestCase{
         $this->assertEquals("Patient created", $response['status']);
     }
 
+    #[Test]
+    #[TestDox('Return data of Patients')]
+    public function testGetClients(){
+        $mock = new MockHandler(
+            [new Response(200,['Content-Type' => 'application/json'], json_encode([
+                "rut"=>"12.345.678-9",
+                "name"=>"Juan Manuel",
+                "last_name"=>"Peréz Quispe",
+                "age"=>29,
+                "weight"=>78.8,
+                "size"=>1.75
+            ])
+        )]);
+        $clientPatient = new Client(['handler'=> HandlerStack::create($mock)]);
+        $request = $clientPatient->get("/home/clients/list");
+        $this->assertEquals(200, $request->getStatusCode());
+        $response = json_decode($request->getBody(), true);
+        $this->assertEquals('12.345.678-9', $response['rut']);
+        $this->assertEquals('Juan Manuel', $response['name']);
+        $this->assertEquals('Peréz Quispe', $response['last_name']);
+        $this->assertEquals(29, $response['age']);
+        $this->assertEquals(78.8, $response['weight']);
+        $this->assertEquals(1.75, $response['size']);
+    }
+
 }

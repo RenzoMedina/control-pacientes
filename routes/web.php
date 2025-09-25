@@ -64,6 +64,7 @@ Flight::group("/home", function(){
     Flight::group("/clients", function(){
         Flight::route(" GET /", [PatientController::class, 'index']);
         Flight::route("POST /", [PatientController::class, 'store']);
+        Flight::route(" GET /list", [PatientController::class, 'show']);
     });
 
     Flight::route(" GET /products", function(){

@@ -22,5 +22,10 @@ class PatientController{
         (new Patient())->create($data);
         Flight::redirect('/home/clients');
     }
-    
+
+    public function show(){
+        $user = Flight::get('user');
+        $client= (new Patient())->getAll();
+        Flight::render('dashboard/clientShow', ['user' => $user,  'client' => $client]);
+    }
 }
