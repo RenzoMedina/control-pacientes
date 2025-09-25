@@ -22,4 +22,5 @@ class PatientController{
         (new Patient())->create($data);
         Flight::redirect('/home/clients');
     }
+    
 }
