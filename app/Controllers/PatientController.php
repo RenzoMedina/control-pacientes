@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Patient;
+use App\Services\PatientService;
 use Flight;
 use App\Core\ErrorLog;
 
@@ -27,5 +28,19 @@ class PatientController{
         $user = Flight::get('user');
         $client= (new Patient())->getAll();
         Flight::render('dashboard/clientShow', ['user' => $user,  'client' => $client]);
+    }
+
+    public function addReportClinical(){
+        $user = Flight::get('user');
+        $client= (new PatientService())->getData();
+        Flight::render('dashboard/reportsclinical', ['user' => $user,  'client' => $client]);
+
+    }
+
+    public function storeReportClinical(){
+        $data=Flight::request()->data;
+        $user = Flight::get('user');
+        $id_report = (new PatientService())->createReportClinical($data);
+        Flight::render('dashboard/reportsclinicaldetails', ['user' => $user,  'id_report' => $id_report]);
     }
 }

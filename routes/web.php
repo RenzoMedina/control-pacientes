@@ -83,10 +83,14 @@ Flight::group("/home", function(){
             Flight::route(" GET /", [RoleController::class, 'index']);
     },[new AuthMiddleware()]);
     
-    Flight::route(" GET /reportsclinical", function(){
-        $user = Flight::get('user');
-        Flight::render('dashboard/reportsclinical', ['user' => $user]);
+    /**
+     * ? group routes of clinical reports
+     */
+    Flight::group("/reportsclinical", function(){
+        Flight::route("GET /", [PatientController::class, 'addReportClinical']);
+        Flight::route("POST /", [PatientController::class, 'storeReportClinical']);
     });
+
 }, [new TokenMiddleware()]);
 
 Flight::start();

@@ -11,12 +11,13 @@ use Firebase\JWT\ExpiredException;
  * @param mixed $admin
  * @return string
  */
-function getToken($admin, $name, $email){
+function getToken($admin, $id, $name, $email){
     $now = strtotime("now");
     $key = trim($_ENV['TOKEN']);
     $payload = [
         'exp'=>$now + 3600,
         'rol'=>$admin,
+        'id'=>$id,
         'name'=> $name,
         'email'=> $email
     ];
