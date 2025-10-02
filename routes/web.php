@@ -1,5 +1,6 @@
 <?php 
 
+use App\Controllers\PatientController;
 use App\Controllers\RoleController;
 use App\Controllers\UserController;
 use App\Middleware\AuthMiddleware;
@@ -57,10 +58,15 @@ Flight::group("/home", function(){
         Flight::route("GET /@id", [UserController::class,'show']);
     },[new AuthMiddleware()]);
 
-    Flight::route(" GET /clients", function(){
-        $user = Flight::get('user');
-        Flight::render('dashboard/clients', ['user' => $user]);
+    /**
+     * ? group routes of patients
+     */
+    Flight::group("/clients", function(){
+        Flight::route(" GET /", [PatientController::class, 'index']);
+        Flight::route("POST /", [PatientController::class, 'store']);
+        Flight::route(" GET /list", [PatientController::class, 'show']);
     });
+
     Flight::route(" GET /products", function(){
         $user = Flight::get('user');
         Flight::render('dashboard/products', ['user' => $user]);
