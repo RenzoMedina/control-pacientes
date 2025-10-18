@@ -29,13 +29,14 @@ class UserService extends ServiceProvider{
             );
             
             $id_rol = $data['type'];
+            $id = $data['id'];
             $user = $data['email'];
             $password = $data['password']; 
             $userName= $data['name'];
             
             if (password_verify($field['password'],$password) && $user == $field['email']){
                 AppLog::appLog("User {$email} logged in successfully.");
-                return getToken( $id_rol, $userName, $user);
+                return getToken( $id_rol,$id, $userName, $user);
             }
             else{
                 ErrorLog::errorsLog("401 -> Invalid login attempt for user: {$email}");
