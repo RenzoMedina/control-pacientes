@@ -21,7 +21,7 @@ class PatientController{
             Flight::redirect('/home');
         }
         (new Patient())->create($data);
-        Flight::redirect('/home/clients');
+        Flight::redirect('/home/clients/?success-client');
     }
 
     public function show(){
@@ -42,5 +42,16 @@ class PatientController{
         $user = Flight::get('user');
         $id_report = (new PatientService())->createReportClinical($data);
         Flight::render('dashboard/reportsclinicaldetails', ['user' => $user,  'id_report' => $id_report]);
+    }
+
+    public function storeDetailReport(){
+        $data= Flight::request()->data;
+/*         $details = Flight::request()->data['detailmedic'];
+        $vitals = Flight::request()->data['vitals']; */
+        Flight::json([
+            "data"=>$data,
+/*             "details"=>$details,
+            "vitals"=>$vitals */
+        ]);
     }
 }
