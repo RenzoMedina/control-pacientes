@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Core\Model;
 use App\Core\AppLog;
 use App\Core\ErrorLog;
+use App\Utils\Pagination;
 
 class Patient extends Model{
     
@@ -33,20 +34,10 @@ class Patient extends Model{
         }
     }
 
-    public function getAll(){
+    public function getAll(int $limit = 8, int $offset = 0){
         try {
-            $patients = $this->db->select('table_patients', [
-                "id",
-                "rut",
-                "name",
-                "last_name",
-                "age",
-                "weight",
-                "size"
-            ],[
-               "ORDER" => ["id" => "ASC"] 
-            ]);
-            return $patients;
+            $result = Pagination::paginate($this->db,"table_patients", $limit, $offset, "home/clients/list");
+            return $result;
         } catch (\Exception $e) {
             ErrorLog::errorsLog("Error fetching patients: " . $e->getMessage());
         }

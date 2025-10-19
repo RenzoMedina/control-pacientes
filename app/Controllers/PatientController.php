@@ -26,8 +26,16 @@ class PatientController{
 
     public function show(){
         $user = Flight::get('user');
-        $client= (new Patient())->getAll();
-        Flight::render('dashboard/clientShow', ['user' => $user,  'client' => $client]);
+        $limit = Flight::request()->query['limit'] ?? 8;    
+        $offset = Flight::request()->query['offset'] ?? 0;
+        $client= (new Patient())->getAll((int)$limit, (int)$offset);
+
+        Flight::render('dashboard/clientShow', [
+            'user' => $user,  
+            'client' => $client['data'],
+            'pagination'=>$client['pagination']
+        ]);
+    
     }
 
     public function addReportClinical(){
@@ -46,12 +54,32 @@ class PatientController{
 
     public function storeDetailReport(){
         $data= Flight::request()->data;
-/*         $details = Flight::request()->data['detailmedic'];
-        $vitals = Flight::request()->data['vitals']; */
-        Flight::json([
-            "data"=>$data,
-/*             "details"=>$details,
-            "vitals"=>$vitals */
+        $user = Flight::get('user');
+        $details = Flight::request()->data['detailmedic'];
+        $vitals = Flight::request()->data['vitals'];
+        $intake = Flight::request()->data['ingesta'];
+        $expense = Flight::request()->data['egreso'];
+        $ohters = Flight::request()->data['indicaciones'];
+
+        (new PatientService())->createDetailsClinical($details, $data['id_patient']);
+        (new PatientService())->createVitalSigns($vitals, $data['id_report']);
+        (new PatientService())->createIntakeControl($intake, $data['id_report']);
+        (new PatientService())->createExpenseControl($expense, $data['id_report']);
+        (new PatientService())->createOtherInstructions($ohters, $data['id_report']);
+        Flight::render('dashboard/products', [
+            'user' => $user
+        ]);
+    }
+
+    public function listDetails(){
+        $user = Flight::get('user');
+        $limit = Flight::request()->query['limit'] ?? 8;
+        $offset = Flight::request()->query['offset'] ?? 0;
+        $client= (new Patient())->getAll((int)$limit, (int)$offset);
+        Flight::render('dashboard/reportShow', [
+            'user' => $user,  
+            'client' => $client['data'],
+            'pagination'=>$client['pagination']
         ]);
     }
 }

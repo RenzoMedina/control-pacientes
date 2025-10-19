@@ -15,8 +15,17 @@ class UserController{
     public function index(){
         $user = Flight::get('user');
         $role = (new Role())->getAllRoles();
-        $users = (new User())->getAll();
-        Flight::render('dashboard/user', ['user' => $user, 'users'=>$users,'role'=>$role]);
+        $limit = (int)(Flight::request()->query['limit'] ?? 8);
+        $offset = (int)(Flight::request()->query['offset'] ?? 0);
+        $users = (new User())->getAll($limit, $offset);
+
+        Flight::render('dashboard/user', 
+        [
+            'user' => $user, 
+            'users' => $users['data'],
+            'pagination' => $users['pagination'],
+            'role' => $role
+    ]);
     }
     public function login(){
         $user = Flight::request()->data['email'];

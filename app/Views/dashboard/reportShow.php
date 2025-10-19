@@ -3,7 +3,7 @@
 <div class="p-4 sm:ml-64">
    <div class="p-4 mt-14">
       <div class="flex flex-col gap-3 justify-center items-center mb-6">
-         <h3 class="text-4xl font-extrabold">Lista de Pacientes</h3>
+         <h3 class="text-4xl font-extrabold">Lista de fichas clínicas</h3>
       </div>
     
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
