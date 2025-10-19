@@ -99,6 +99,12 @@ class PatientService extends ServiceProvider{
             ErrorLog::errorsLog("Error creating createIntakeControl: " . $e->getMessage());
         }
     }
+    /**
+     * Summary of createExpenseControl
+     * @param mixed $data
+     * @param mixed $id
+     * @return void
+     */
     public function createExpenseControl($data, $id){
         try {
             $this->db->insert('table_expense_control_report_of_patient',[
