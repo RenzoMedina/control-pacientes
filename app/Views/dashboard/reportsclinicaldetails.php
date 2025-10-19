@@ -8,7 +8,8 @@
          
       </div>
       <form action="reportsclinical/detailsClinical" method="POST">
-         <input type="text" name="id" hidden value="<?php echo $id_report?>">
+         <input type="text" name="id_report" hidden value="<?php echo $id_report['id_report']?>">
+         <input type="text" name="id_patient" hidden value="<?php echo $id_report['id_patient']?>">
          <div class="border-2 rounded-lg border-gray-100 mt-5 shadow-lg">
             <fieldset class="p-4 mt-3">
               <legend class="text-xl font-bold">Detalles clínicos</legend>
@@ -75,7 +76,7 @@
                         <span class="inline-flex items-center px-3 text-sm border font-bold border-e-0 rounded-r-lg bg-gray-600 text-gray-100 border-gray-600">
                            /10
                         </span>
-                     <input type="number" name="vitals[saturacion]" id="vitals-saturacion"  class="bg-gray-50 border border-gray-300  text-gray-900 text-sm rounded-l-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 text-center"  required  step="0.01" max="200">
+                     <input type="number" name="vitals[eva_flacc]" id="vitals-flacc"  class="bg-gray-50 border border-gray-300  text-gray-900 text-sm rounded-l-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 text-center"  required  step="0.01" max="200">
                      </div>
                   </div>
                </div>
