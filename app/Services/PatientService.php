@@ -118,6 +118,12 @@ class PatientService extends ServiceProvider{
             ErrorLog::errorsLog("Error creating createExpenseControl: " . $e->getMessage());
         }
     }
+    /**
+     * Summary of createOtherInstructions
+     * @param mixed $data
+     * @param mixed $id
+     * @return void
+     */
     public function createOtherInstructions($data, $id){
          try {
             $this->db->insert('table_other_instructions_report_of_patient',[
