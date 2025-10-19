@@ -81,6 +81,12 @@ class PatientService extends ServiceProvider{
             ErrorLog::errorsLog("Error creating createVitalSigns: " . $e->getMessage());
         }
     }
+    /**
+     * Summary of createIntakeControl
+     * @param mixed $data
+     * @param mixed $id
+     * @return void
+     */
     public function createIntakeControl($data, $id){
         try {
             $this->db->insert('table_intake_control_report_of_patient',[
