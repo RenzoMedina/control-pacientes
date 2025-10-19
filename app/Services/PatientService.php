@@ -40,6 +40,12 @@ class PatientService extends ServiceProvider{
             ErrorLog::errorsLog("Error creating clinical report: " . $e->getMessage());
         }
     }
+    /**
+     * Summary of createDetailsClinical
+     * @param mixed $data
+     * @param mixed $id
+     * @return void
+     */
     public function createDetailsClinical($data, $id){
         try {
             $this->db->insert('table_details_medicals',[
@@ -53,6 +59,12 @@ class PatientService extends ServiceProvider{
             ErrorLog::errorsLog("Error creating createDetailsClinical: " . $e->getMessage());
         }
     }
+    /**
+     * Summary of createVitalSigns
+     * @param mixed $data
+     * @param mixed $id
+     * @return void
+     */
     public function createVitalSigns($data, $id){
         try {
             $this->db->insert('table_vital_signs_report_of_patient',[
