@@ -147,9 +147,17 @@
                 <div class="grid gap-4 mb-4 grid-cols-2">
                     <div class="sm:col-span-2">
                         <label for="type" class="block mb-2 text-sm font-medium text-white text-md">Cargo</label>
-                        <input type="text" name="type" id="type"
+                       <!--  <input type="text" name="type" id="type"
                             class=" p-2.5 w-full text-md  rounded-lg border  bg-gray-600 border-gray-500 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                            >
+                            > -->
+                        <select id="type" name="type"
+                            class="block p-2.5 w-full text-sm  rounded-lg border border-gray-300  bg-gray-600 dark:border-gray-500 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500">
+                            <option value="Administrador">Administrador</option>
+                            <option value="Supervisora">Supervisora</option>
+                            <option value="Gerencia">Gerencia</option>
+                            <option value="Asistente">Asistente</option>
+                            <option value="Cuidadora">Cuidadora</option>
+                        </select>
                     </div>
                 </div>
                 <button type="submit"

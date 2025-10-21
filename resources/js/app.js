@@ -28,9 +28,8 @@ const showAlert = (color, message) => {
   alertBox.classList.remove('opacity-0')
   alertBox.classList.add('opacity-100')
 
-  btnAlert.classList.add(classes.text)
+  textAlert.classList.add(classes.text)
   btnAlert.classList.add(classes.ring)
-  console.log(classes.ring)
 
   textAlert.innerHTML = message
 

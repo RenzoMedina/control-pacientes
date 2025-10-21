@@ -66,8 +66,13 @@ class PatientController{
         (new PatientService())->createIntakeControl($intake, $data['id_report']);
         (new PatientService())->createExpenseControl($expense, $data['id_report']);
         (new PatientService())->createOtherInstructions($ohters, $data['id_report']);
-        Flight::render('dashboard/products', [
-            'user' => $user
+        $limit = Flight::request()->query['limit'] ?? 8;
+        $offset = Flight::request()->query['offset'] ?? 0;
+        $client= (new PatientService())->getAllReport((int) $limit, (int)$offset);
+        Flight::render('dashboard/reportShow', [
+            'user' => $user,  
+            'client' => $client['data'],
+            'pagination'=>$client['pagination']
         ]);
     }
 
@@ -75,7 +80,7 @@ class PatientController{
         $user = Flight::get('user');
         $limit = Flight::request()->query['limit'] ?? 8;
         $offset = Flight::request()->query['offset'] ?? 0;
-        $client= (new Patient())->getAll((int)$limit, (int)$offset);
+        $client= (new PatientService())->getAllReport((int) $limit, (int)$offset);
         Flight::render('dashboard/reportShow', [
             'user' => $user,  
             'client' => $client['data'],

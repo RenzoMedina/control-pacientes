@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Core\ErrorLog;
 use App\Core\ServiceProvider;
+use App\Utils\Pagination;
 
 class PatientService extends ServiceProvider{
 
@@ -134,6 +135,40 @@ class PatientService extends ServiceProvider{
             ]);
         } catch (\Exception $e) {
             ErrorLog::errorsLog("Error creating createOtherInstructions: " . $e->getMessage());
+        }
+    }
+
+    public function getAllReport(int $limit = 8, int $offset = 0){
+        try {
+            
+            $paginated = Pagination::paginate($this->db, 'table_daily_report_of_patient', $limit, $offset, '/reports');
+
+            
+            $data = array_map(function($report) {
+                $patient = $this->db->get('table_patients', [
+                    'rut',
+                    'name',
+                    'last_name'
+                ], ['id' => $report['id_patient']]);
+
+                $user = $this->db->get('table_users', [
+                    'name'
+                ], ['id' => $report['id_user']]);
+
+                return array_merge($report, [
+                    'patient_rut' => $patient['rut'] ?? null,
+                    'patient_name' => $patient['name'] ?? null,
+                    'patient_last_name' => $patient['last_name'] ?? null,
+                    'user_name' => $user['name'] ?? null
+                ]);
+            }, $paginated['data']);
+
+            
+            $paginated['data'] = $data;
+
+            return $paginated;
+        } catch (\Exception $e) {
+            ErrorLog::errorsLog("Error fetching patients: " . $e->getMessage());
         }
     }
 }

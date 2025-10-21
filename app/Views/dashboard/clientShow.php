@@ -41,10 +41,10 @@
                     <?php echo $clients['rut']; ?>
                 </th>
                 <td class="px-6 py-4">
-                   <?php echo $clients['name']; ?>
+                   <?php echo ucwords($clients['name']); ?>
                 </td>
                 <td class="px-6 py-4">
-                    <?php echo $clients['last_name']; ?>
+                    <?php echo ucwords($clients['last_name']); ?>
                 </td>
                 <td class="px-6 py-4">
                     <?php echo $clients['age']; ?>
