@@ -28,9 +28,8 @@ const showAlert = (color, message) => {
   alertBox.classList.remove('opacity-0')
   alertBox.classList.add('opacity-100')
 
-  btnAlert.classList.add(classes.text)
+  textAlert.classList.add(classes.text)
   btnAlert.classList.add(classes.ring)
-  console.log(classes.ring)
 
   textAlert.innerHTML = message
 
@@ -47,4 +46,7 @@ if(url.has('success-user')){
 }
 if(url.has('success-client')){
     showAlert("green","El paciente ha sido ingreso correctamente")
+}
+if(url.has('report-success')){
+    showAlert("green","Reporte diario finalizado y enviado correctamente!!!")
 }

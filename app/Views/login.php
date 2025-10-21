@@ -1,6 +1,6 @@
 <?php require_once 'layouts/header.php'; ?>
 
-<div class="container mx-auto my-52 block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-xl">
+<div class="container mx-auto my-52 block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-xl" >
     <form class="max-w-sm mx-auto" method="POST" action="/login-process">
         <p class="text-center text-4xl font-extrabold">Empresa</p>
   <div class="mb-5">

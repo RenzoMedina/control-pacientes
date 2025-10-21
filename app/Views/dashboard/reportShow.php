@@ -2,6 +2,23 @@
 <?php require_once 'app/Views/dashboard/home.php';?>
 <div class="p-4 sm:ml-64">
    <div class="p-4 mt-14">
+       <!---alert---->
+            <div id="alert-1" class="flex fixed right-6 top-14 opacity-0 transition-opacity duration-500 ease-in-out items-center p-4 mb-4 rounded-lg mt-3 bg-gray-800" role="alert">
+            <svg class="shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+            </svg>
+            <span class="sr-only">Info</span>
+            <div class="ms-3 text-sm font-medium mr-3 text-green-400" id="text-alert">
+            </div>
+                <button type="button" id="btn-alert" class="ms-auto -mx-1.5 -my-1.5  rounded-lg focus:ring-2 focus:ring-green-400  p-1.5  inline-flex items-center justify-center h-8 w-8 bg-gray-800  hover:bg-gray-700" data-dismiss-target="#alert-1" aria-label="Close">
+                <span class="sr-only">Close</span>
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+            </button>
+            </div>
+            <!---end-alert---->
+
       <div class="flex flex-col gap-3 justify-center items-center mb-6">
          <h3 class="text-4xl font-extrabold">Lista de fichas clínicas</h3>
       </div>
@@ -9,7 +26,9 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left rtl:text-right  text-white">
         <thead class="text-xs  uppercase  bg-gray-700 text-white">
-            <tr>
+            <tr><th scope="col" class="px-6 py-3">
+                    N°
+                </th>
                 
                 <th scope="col" class="px-6 py-3">
                     RUT
@@ -21,13 +40,7 @@
                     Apellido
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Edad
-                </th>
-                 <th scope="col" class="px-6 py-3">
-                    Peso (kg)
-                </th>
-                 <th scope="col" class="px-6 py-3">
-                    Estatura (cm)
+                    Cuidadora
                 </th>
                 <th scope="col" class="px-6 py-3">
                 Acción
@@ -35,53 +48,116 @@
             </tr>
         </thead>
         <tbody>
+            <?php
+                $isAdminOrSupervisor = in_array($user->rol, ['Administrador', 'Supervisora']);
+                $isCaregiver = $user->rol === 'Cuidadora';
+                ?>
+
             <?php foreach ($client as $clients):?>
-            <tr class="border-b bg-gray-100 border-gray-700 text-gray-900  ">
+                 <?php
+                    $isAdminOrSupervisor = in_array($user->rol, ['Administrador', 'Supervisora']);
+                    $isOwner = $user->id == $clients['id_user'];
+                    if ($isAdminOrSupervisor || $isOwner):
+            ?>
+            <tr class="border-b border-gray-700 text-gray-900  ">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                    <?php echo $clients['rut']; ?>
+                    <?php echo $clients['id']; ?>
+                </th>
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                    <?php echo $clients['patient_rut']; ?>
                 </th>
                 <td class="px-6 py-4">
-                   <?php echo $clients['name']; ?>
+                   <?php echo $clients['patient_name']; ?>
                 </td>
                 <td class="px-6 py-4">
-                    <?php echo $clients['last_name']; ?>
+                    <?php echo $clients['patient_last_name']; ?>
                 </td>
                 <td class="px-6 py-4">
-                    <?php echo $clients['age']; ?>
+                    <?php echo $clients['user_name']; ?>
                 </td>
-                <td class="px-6 py-4">
-                    <?php echo $clients['weight']." kg"; ?>
-                </td>
-                <td class="px-6 py-4">
-                    <?php echo $clients['size']." cm"; ?>
-                </td>
-                <td class="px-6 py-4">
+                <?php if ($clients['status'] == "pending") :?>
+                    <td class="px-6 py-4">
                     <div class="flex">
-                        <a href="#" title="Ver detalle">
-                            <svg   data-tooltip-style="light" class="w-6 h-6 text-green-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>
-                        <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                        <button title="Evaluar detalle" data-modal-target="modal-<?= $clients['id'] ?>" data-modal-toggle="modal-<?= $clients['id'] ?>">
+                           <svg class="w-6 h-6 text-blue-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M9 7V2.221a2 2 0 0 0-.5.365L4.586 6.5a2 2 0 0 0-.365.5H9Zm2 0V2h7a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9h5a2 2 0 0 0 2-2Zm-1 9a1 1 0 1 0-2 0v2a1 1 0 1 0 2 0v-2Zm2-5a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1Zm4 4a1 1 0 1 0-2 0v3a1 1 0 1 0 2 0v-3Z" clip-rule="evenodd"/>
                         </svg>
-                        </a>
-                        <a href="#" title="Contacto">
-                            <svg class="w-6 h-6 text-blue-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                        <path fill-rule="evenodd" d="M7 2a2 2 0 0 0-2 2v1a1 1 0 0 0 0 2v1a1 1 0 0 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H7Zm3 8a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm-1 7a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3 1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1Z" clip-rule="evenodd"/>
-                        </svg>
-                        </a>
+                        </button>
+                        <button title="Editar detalle">
+                           <svg class="w-6 h-6 text-green-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M11.32 6.176H5c-1.105 0-2 .949-2 2.118v10.588C3 20.052 3.895 21 5 21h11c1.105 0 2-.948 2-2.118v-7.75l-3.914 4.144A2.46 2.46 0 0 1 12.81 16l-2.681.568c-1.75.37-3.292-1.263-2.942-3.115l.536-2.839c.097-.512.335-.983.684-1.352l2.914-3.086Z" clip-rule="evenodd"/>
+                            <path fill-rule="evenodd" d="M19.846 4.318a2.148 2.148 0 0 0-.437-.692 2.014 2.014 0 0 0-.654-.463 1.92 1.92 0 0 0-1.544 0 2.014 2.014 0 0 0-.654.463l-.546.578 2.852 3.02.546-.579a2.14 2.14 0 0 0 .437-.692 2.244 2.244 0 0 0 0-1.635ZM17.45 8.721 14.597 5.7 9.82 10.76a.54.54 0 0 0-.137.27l-.536 2.84c-.07.37.239.696.588.622l2.682-.567a.492.492 0 0 0 .255-.145l4.778-5.06Z" clip-rule="evenodd"/>
+                            </svg>
+
+                        </button>
                     </div>
                 </td>
+                <?php else: ?>
+                    <td class="px-6 py-4">
+                    <div class="flex">
+                        <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 3v4a1 1 0 0 1-1 1H5m4 6 2 2 4-4m4-8v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1Z"/>
+                        </svg>
+
+                    </div>
+                </td>
+                <?php endif; ?>
             </tr>
-            <div id="tooltip-light" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-xs opacity-0 tooltip">
-    Tooltip content
-    <div class="tooltip-arrow" data-popper-arrow></div>
+            
+        <?php endif; ?>
+
+<!---- Modal evaluation --------------->
+<div id="modal-<?= $clients['id'] ?>" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-slate-100 bg-opacity-30 p-4">
+    <div class="relative w-full max-w-lg max-h-full">
+        <!-- Modal content -->
+        <div class="relative rounded-lg shadow-sm bg-gray-700 left-32">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600 ">
+                <h3 class="text-xl font-medium text-white">
+                    Evaluación Detallada
+                </h3>
+                <button type="button" class="text-gray-400 bg-transparent   rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white" data-modal-hide="modal-<?= $clients['id'] ?>">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-4 md:p-5 space-y-4">
+            <form action="/home/reportsclinical/evaluation" method="POST">
+                <div class="grid gap-4 mb-4 grid-cols-2">
+                    <div class="w-full">
+                        <label for="base-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">N° Ficha</label>
+                         <input type="text" name="id_daily_report" aria-label="disabled input 2" class="border text-sm rounded-lg  block w-full p-2.5 cursor-not-allowed bg-gray-700 border-gray-600 placeholder-gray-400 text-gray-100 font-bold focus:ring-blue-500 focus:border-blue-500" value="<?php echo $clients['id']; ?>" readonly>
+                </div>
+                <div class="w-full">
+                    <label for="base-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha</label>
+                         <input type="text" name="date" aria-label="disabled input 2" class="border text-sm rounded-lg  block w-full p-2.5 cursor-not-allowed bg-gray-700 border-gray-600 placeholder-gray-400 text-gray-100 font-bold focus:ring-blue-500 focus:border-blue-500" value="<?php echo date('Y-m-d')?>" readonly>
+                </div>
+                </div>
+                <label for="message" class="block mb-2 text-md font-medium text-white">Comentario</label>
+                <textarea id="message" name="observations" rows="4" class="block p-2.5 w-full text-md font-semibold rounded-lg border bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" placeholder="Ingrese su reporte...."></textarea>
+            </div>
+            <!-- Modal footer -->
+            <div class="flex items-center p-4 md:p-5 border-t  rounded-b border-gray-600">
+                <button data-modal-hide="medium-modal" type="submit" class="text-white bg-blue-700  focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">Aceptar y enviar</button>
+                <button data-modal-hide="medium-modal" type="reset" class="py-2.5 px-5 ms-3 text-sm font-medium focus:outline-none rounded-lg border  focus:z-10 focus:ring-4  focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700">Borrar</button>
+            </div>
+            </form>
+        </div>
+    </div>
 </div>
-            <?php endforeach; ?>
+
+
+
+<?php endforeach; ?>
         </tbody>
     </table>
     
     <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
             aria-label="Table navigation">
-            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+            <span class="text-sm font-normal text-gray-400">
                 Mostrando
                 <span class="font-semibold text-gray-900">
                     <?= $pagination['offset'] + 1 ?> -
@@ -109,12 +185,12 @@
             <?php for ($i = 1; $i <= $pagination['last_page']; $i++): ?>
                 <?php
                     $pageOffset = ($i - 1) * $pagination['limit'];
-                    $pageUrl = "/home/clients/list?limit={$pagination['limit']}&offset={$pageOffset}";
+                    $pageUrl = "/home/reportsclinical/list?limit={$pagination['limit']}&offset={$pageOffset}";
                     $isCurrent = $pagination['offset'] === $pageOffset;
                 ?>
                 <li>
                     <a href="<?= $pageUrl ?>"
-                    class="flex items-center justify-center text-sm py-2 px-3 leading-tight <?= $isCurrent ? 'bg-gray-700 text-white' : 'text-gray-500 bg-white' ?> border border-gray-300 dark:border-gray-700 hover:bg-gray-700 hover:text-white">
+                    class="flex items-center justify-center text-sm py-2 px-3 leading-tight <?= $isCurrent ? 'bg-gray-700 text-white' : 'text-gray-500 bg-white' ?> border  border-gray-700 hover:bg-gray-700 hover:text-white">
                         <?= $i ?>
                     </a>
                 </li>
@@ -137,7 +213,9 @@
         </ul>
     </nav>
 </div>
-
    </div>
 </div>
+
+
+
 <?php require_once 'app/Views/layouts/footer.php'; ?>
