@@ -69,7 +69,7 @@ class PatientController{
         $limit = Flight::request()->query['limit'] ?? 8;
         $offset = Flight::request()->query['offset'] ?? 0;
         $client= (new PatientService())->getAllReport((int) $limit, (int)$offset);
-        Flight::render('dashboard/reportShow', [
+         Flight::render('dashboard/reportShow', [
             'user' => $user,  
             'client' => $client['data'],
             'pagination'=>$client['pagination']
@@ -86,5 +86,11 @@ class PatientController{
             'client' => $client['data'],
             'pagination'=>$client['pagination']
         ]);
+    }
+
+    public function createReport(){
+        $data = Flight::request()->data;
+        (new PatientService())->createReportEvaluation($data);
+        Flight::redirect("/home/reportsclinical/list/?report-success");
     }
 }

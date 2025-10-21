@@ -141,7 +141,7 @@ class PatientService extends ServiceProvider{
     public function getAllReport(int $limit = 8, int $offset = 0){
         try {
             
-            $paginated = Pagination::paginate($this->db, 'table_daily_report_of_patient', $limit, $offset, '/reports');
+            $paginated = Pagination::paginate($this->db, 'table_daily_report_of_patient', $limit, $offset, '/home/reportsclinical/list');
 
             
             $data = array_map(function($report) {
@@ -169,6 +169,23 @@ class PatientService extends ServiceProvider{
             return $paginated;
         } catch (\Exception $e) {
             ErrorLog::errorsLog("Error fetching patients: " . $e->getMessage());
+        }
+    }
+    public function createReportEvaluation($data){
+        try {
+            $this->db->insert('table_evaluation_report_of_patient',[
+                'id_daily_report'=> $data['id_daily_report'],
+                'observations' => $data['observations'],
+                'date' => $data['date']
+            
+            ]);
+            $this->db->update('table_daily_report_of_patient',[
+                'status'=>'completed'
+            ],[
+                'id'=>$data['id_daily_report']
+            ]);
+        } catch (\Exception $e) {
+            ErrorLog::errorsLog("Error creating createReportEvaluation: " . $e->getMessage());
         }
     }
 }

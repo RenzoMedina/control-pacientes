@@ -47,3 +47,6 @@ if(url.has('success-user')){
 if(url.has('success-client')){
     showAlert("green","El paciente ha sido ingreso correctamente")
 }
+if(url.has('report-success')){
+    showAlert("green","Reporte diario finalizado y enviado correctamente!!!")
+}

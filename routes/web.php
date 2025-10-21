@@ -91,6 +91,7 @@ Flight::group("/home", function(){
         Flight::route("POST /", [PatientController::class, 'storeReportClinical']);
         Flight::route("POST /detailsClinical",[PatientController::class, 'storeDetailReport']);
         Flight::route(" /list", [PatientController::class,'listDetails']);
+        Flight::route("POST /evaluation", [PatientController::class,'createReport']);
     });
 
 }, [new TokenMiddleware()]);

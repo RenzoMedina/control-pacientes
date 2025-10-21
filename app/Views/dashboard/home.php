@@ -10,7 +10,7 @@
             </svg>
          </button>
         <a href="/home" class="flex ms-2 md:me-24">
-          <img src="../../app/public/assets/image/logo.png" class="h-8 me-3" alt="FlowBite Logo" />
+          <img src="../../../app/public/assets/image/logo.png" class="h-8 me-3" alt="FlowBite Logo" />
           <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-white">Empresa</span>
         </a>
       </div>
@@ -19,7 +19,7 @@
             <div>
               <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                 <span class="sr-only">Open user menu</span>
-                <img class="w-8 h-8 rounded-full" src="../../app/public/assets/image/avatar.png" alt="user photo">
+                <img class="w-8 h-8 rounded-full" src="../../../app/public/assets/image/avatar.png" alt="user photo">
               </button>
             </div>
             <div class="z-50 hidden my-4 text-base list-none rounded-sm shadow-sm bg-gray-700 divide-gray-600" id="dropdown-user">
